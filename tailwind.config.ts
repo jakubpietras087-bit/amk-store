@@ -19,8 +19,8 @@ const config: Config = {
         alabaster: "#F5F5F7",
       },
       fontFamily: {
-        serif: ["var(--font-cormorant)", "Georgia", "serif"],
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        serif: ["Georgia", "Times New Roman", "serif"],
+        sans: ["system-ui", "Segoe UI", "Arial", "sans-serif"],
       },
       letterSpacing: {
         luxury: "0.12em",

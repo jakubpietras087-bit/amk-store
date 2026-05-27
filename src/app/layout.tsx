@@ -1,22 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
 import { AppProviders } from "@/components/providers/AppProviders";
 import { CookieConsentBanner } from "@/components/legal/CookieConsentBanner";
 import { ExpressCheckoutDrawer } from "@/components/checkout/ExpressCheckoutDrawer";
 import "./globals.css";
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-cormorant",
-  display: "swap",
-  weight: ["300", "400", "500", "600"],
-});
-
-const inter = Inter({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "AMK — Luksusowe Poduszki Ortopedyczne | Wyroby Medyczne Klasy I",
@@ -50,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="pl">
       <body className="min-h-screen overflow-x-hidden">
         <AppProviders>
           {children}

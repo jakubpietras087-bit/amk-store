@@ -38,7 +38,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
         >
           <div className="absolute inset-0 flex items-center justify-center font-serif text-3xl tracking-luxury text-champagne/30 md:text-4xl">
             AMK
-          </motion.div>
+          </div>
         </motion.div>
         <span className="absolute bottom-4 left-4 font-sans text-[10px] uppercase tracking-luxury text-luxury/30">
           {String(index + 1).padStart(2, "0")} / 04
