@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AMK — Luksusowe Poduszki Ortopedyczne | Podgląd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --obsidian: #0b0b0b;
+      --luxury: #fafafa;
+      --champagne: #c5a059;
+      --champagne-light: #d4af37;
+      --charcoal: #161616;
+      --alabaster: #f5f5f7;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--obsidian);
+      color: var(--luxury);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .serif { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .tracking-luxury { letter-spacing: 0.12em; }
+    .uppercase-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    input, textarea, select {
+      font-family: inherit;
+      font-size: 14px;
+    }
+    ::selection { background: rgba(197, 160, 89, 0.3); }
+
+    /* Header */
+    .header {
+      position: fixed; inset: 0 0 auto 0; z-index: 50;
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.5s, border 0.5s;
+    }
+    .header.scrolled {
+      background: rgba(11, 11, 11, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(250, 250, 250, 0.08);
+    }
+    .logo { font-size: 1.5rem; letter-spacing: 0.12em; transition: color 0.3s; }
+    .logo:hover { color: var(--champagne); }
+    .nav { display: none; gap: 2.5rem; list-style: none; }
+    .nav a { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(250,250,250,0.7); transition: color 0.3s; }
+    .nav a:hover { color: var(--champagne); }
+    .btn-header {
+      border: 1px solid rgba(197, 160, 89, 0.5);
+      padding: 0.5rem 1rem;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--champagne); transition: background 0.3s;
+    }
+    .btn-header:hover { background: rgba(197, 160, 89, 0.1); }
+
+    /* Hero */
+    .hero {
+      min-height: 100svh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; text-align: center;
+      padding: 7rem 1.5rem 4rem;
+    }
+    .hero-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(197,160,89,0.08), transparent 70%);
+    }
+    .hero-fade {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent, var(--obsidian) 95%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 56rem; }
+    .hero h1 {
+      font-size: clamp(2.25rem, 6vw, 5rem);
+      font-weight: 300; line-height: 1.15; letter-spacing: 0.04em;
+      margin-top: 1.5rem;
+    }
+    .hero h1 span { color: rgba(197, 160, 89, 0.9); }
+    .hero p { margin-top: 2rem; font-size: 0.95rem; line-height: 1.7; color: rgba(250,250,250,0.6); max-width: 32rem; margin-inline: auto; }
+    .hero-btns { margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .btn-primary {
+      min-width: 200px; padding: 0.9rem 2rem;
+      background: var(--luxury); color: var(--obsidian);
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      border: 1px solid var(--luxury); transition: opacity 0.3s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-outline {
+      min-width: 200px; padding: 0.9rem 2rem;
+      border: 1px solid rgba(250,250,250,0.3);
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-outline:hover { border-color: rgba(197,160,89,0.5); color: var(--champagne); }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      color: rgba(250,250,250,0.4); animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: fadeUp 0.8s var(--ease) forwards; }
+
+    /* Section */
+    .section-light { background: var(--luxury); color: var(--obsidian); padding: 6rem 1.5rem; }
+    .section-dark { background: var(--charcoal); padding: 6rem 1.5rem; }
+    .container { max-width: 96rem; margin: 0 auto; }
+    .section-title { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 400; letter-spacing: 0.04em; margin-top: 0.75rem; }
+    .section-intro { margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: rgba(11,11,11,0.6); max-width: 36rem; }
+    .text-gold { color: var(--champagne); }
+
+    /* Badge */
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid rgba(197,160,89,0.4);
+      background: rgba(197,160,89,0.05);
+      padding: 4px 10px;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--champagne);
+    }
+    .badge svg { width: 12px; height: 12px; }
+
+    /* Product card */
+    .products { display: grid; gap: 2rem; margin-top: 4rem; }
+    .product-card {
+      display: flex; flex-direction: column;
+      border: 1px solid rgba(11,11,11,0.08);
+      background: var(--alabaster);
+      overflow: hidden;
+      transition: box-shadow 0.5s;
+    }
+    .product-card:hover { box-shadow: 0 24px 48px -12px rgba(11,11,11,0.12); }
+    .product-visual {
+      aspect-ratio: 4/3;
+      background: var(--charcoal);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .product-visual-inner {
+      width: 12rem; height: 8rem;
+      border: 1px solid rgba(197,160,89,0.2);
+      background: rgba(11,11,11,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; letter-spacing: 0.12em; color: rgba(197,160,89,0.3);
+    }
+    .product-num {
+      position: absolute; bottom: 1rem; left: 1rem;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(250,250,250,0.3);
+    }
+    .product-body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+    .product-subtitle { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(11,11,11,0.5); margin-top: 1rem; }
+    .product-name { font-size: 1.75rem; letter-spacing: 0.04em; margin-top: 0.5rem; }
+    .product-desc { margin-top: 1rem; font-size: 0.9rem; line-height: 1.7; color: rgba(11,11,11,0.7); }
+    .price { font-size: 1.75rem; letter-spacing: 0.04em; margin-top: 1.5rem; }
+    .omnibus { font-size: 11px; color: rgba(11,11,11,0.5); margin-top: 4px; }
+    .omnibus span { color: rgba(11,11,11,0.7); }
+
+    /* Accordion */
+    .accordion { border-top: 1px solid rgba(11,11,11,0.15); margin-top: 2rem; padding-top: 1rem; }
+    .accordion-btn {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0; color: var(--obsidian); transition: color 0.3s;
+    }
+    .accordion-btn:hover { color: var(--champagne); }
+    .accordion-btn svg { transition: transform 0.3s; }
+    .accordion-btn.open svg { transform: rotate(180deg); }
+    .accordion-panel {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s var(--ease);
+    }
+    .accordion-panel.open { max-height: 400px; }
+    .spec-list { margin-top: 1rem; font-size: 0.875rem; line-height: 1.6; color: rgba(11,11,11,0.6); }
+    .spec-list dt { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(11,11,11,0.8); margin-top: 0.75rem; }
+    .spec-list dt:first-child { margin-top: 0; }
+
+    .btn-buy {
+      width: 100%; margin-top: 1.5rem; padding: 1rem;
+      background: var(--obsidian); color: var(--luxury);
+      border: 1px solid var(--obsidian);
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .btn-buy:hover { border-color: var(--champagne); background: var(--charcoal); }
+
+    /* Brand */
+    .brand-grid { display: grid; gap: 4rem; margin-top: 2rem; }
+    .pillar {
+      display: flex; gap: 1.25rem;
+      border-left: 1px solid rgba(197,160,89,0.3);
+      padding-left: 1.5rem;
+    }
+    .pillar h3 { font-size: 1.125rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+    .pillar p { font-size: 0.875rem; line-height: 1.6; color: rgba(250,250,250,0.5); }
+    .pillar svg { color: var(--champagne); flex-shrink: 0; margin-top: 4px; }
+
+    /* Newsletter */
+    .newsletter { text-align: center; max-width: 36rem; margin: 0 auto; }
+    .newsletter-form { margin-top: 2.5rem; text-align: left; }
+    .newsletter-row { display: flex; flex-direction: column; gap: 0.75rem; }
+    .newsletter input[type=email] {
+      flex: 1; padding: 0.9rem 1rem;
+      border: 1px solid rgba(250,250,250,0.2);
+      background: transparent; color: var(--luxury);
+    }
+    .newsletter input:focus { outline: none; border-color: var(--champagne); box-shadow: 0 0 0 1px rgba(197,160,89,0.3); }
+    .btn-gold {
+      padding: 0.9rem 1.5rem;
+      border: 1px solid var(--champagne);
+      background: rgba(197,160,89,0.1);
+      color: var(--champagne);
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 0.3s;
+    }
+    .btn-gold:hover { background: rgba(197,160,89,0.2); }
+    .consent-label { display: flex; gap: 0.75rem; margin-top: 1.5rem; cursor: pointer; align-items: flex-start; }
+    .consent-label input { margin-top: 4px; width: 16px; height: 16px; accent-color: var(--champagne); }
+    .consent-label span { font-size: 12px; line-height: 1.6; color: rgba(250,250,250,0.5); }
+    .form-error { color: #f87171; font-size: 12px; margin-top: 0.75rem; }
+    .form-success { color: var(--champagne); font-size: 14px; margin-top: 2.5rem; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(250,250,250,0.1);
+      padding: 4rem 1.5rem 2rem;
+    }
+    .footer-grid {
+      display: grid; gap: 3rem;
+      grid-template-columns: 1fr;
+    }
+    .footer-col h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--champagne); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.5rem; }
+    .footer-col a, .footer-col button.link {
+      font-size: 14px; color: rgba(250,250,250,0.55); transition: color 0.3s;
+      background: none; border: none; padding: 0; text-align: left; cursor: pointer;
+    }
+    .footer-col a:hover, .footer-col button.link:hover { color: var(--champagne); }
+    .footer-security li { display: flex; align-items: center; gap: 8px; }
+    .footer-bottom {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid rgba(250,250,250,0.1);
+      display: flex; flex-direction: column; gap: 1rem;
+      font-size: 10px; color: rgba(250,250,250,0.35); text-align: center;
+    }
+
+    /* Drawer */
+    .overlay {
+      position: fixed; inset: 0; z-index: 60;
+      background: rgba(11,11,11,0.7);
+      backdrop-filter: blur(4px);
+      opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .overlay.active { opacity: 1; visibility: visible; }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 70;
+      width: 100%; max-width: 28rem;
+      background: var(--charcoal);
+      border-left: 1px solid rgba(250,250,250,0.1);
+      transform: translateX(100%);
+      transition: transform 0.45s var(--ease);
+      display: flex; flex-direction: column;
+    }
+    .drawer.active { transform: translateX(0); }
+    .drawer-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba(250,250,250,0.1);
+    }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 1.5rem; }
+    .drawer-product {
+      border: 1px solid rgba(250,250,250,0.1);
+      background: rgba(11,11,11,0.4);
+      padding: 1.25rem;
+    }
+    .drawer input {
+      width: 100%; padding: 0.75rem 1rem; margin-bottom: 0.75rem;
+      border: 1px solid rgba(250,250,250,0.15);
+      background: rgba(11,11,11,0.5); color: var(--luxury);
+    }
+    .drawer input:focus { outline: none; border-color: var(--champagne); }
+    .drawer input::placeholder { color: rgba(250,250,250,0.25); }
+    .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .pay-btn {
+      height: 48px; border: 1px solid rgba(250,250,250,0.15);
+      background: rgba(250,250,250,0.05);
+      color: var(--luxury); font-size: 14px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .pay-btn:hover { border-color: rgba(197,160,89,0.4); background: rgba(250,250,250,0.1); }
+    .pay-blik { width: 100%; margin-bottom: 1rem; font-weight: 700; }
+    .divider { position: relative; text-align: center; margin: 1rem 0; }
+    .divider::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 50%;
+      border-top: 1px solid rgba(250,250,250,0.1);
+    }
+    .divider span {
+      position: relative; background: var(--charcoal);
+      padding: 0 0.75rem; font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.12em; color: rgba(250,250,250,0.4);
+    }
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .drawer-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(250,250,250,0.1);
+      font-size: 10px; color: rgba(250,250,250,0.35); text-align: center;
+    }
+    .drawer-footer a { text-decoration: underline; }
+    .drawer-footer a:hover { color: var(--champagne); }
+    .close-btn { color: rgba(250,250,250,0.5); padding: 0.25rem; }
+    .close-btn:hover { color: var(--luxury); }
+
+    /* Cookie */
+    .cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 80;
+      background: rgba(22,22,22,0.98);
+      border-top: 1px solid rgba(250,250,250,0.1);
+      padding: 1.25rem 1.5rem;
+      transform: translateY(100%);
+      transition: transform 0.45s var(--ease);
+    }
+    .cookie-banner.visible { transform: translateY(0); }
+    .cookie-inner {
+      max-width: 96rem; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .cookie-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .btn-cookie-outline {
+      border: 1px solid rgba(250,250,250,0.2);
+      padding: 0.6rem 1.25rem;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(250,250,250,0.7);
+    }
+    .btn-cookie-outline:hover { border-color: rgba(250,250,250,0.4); color: var(--luxury); }
+
+    /* Modal */
+    .modal {
+      position: fixed; inset: 0; z-index: 90;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal-bg {
+      position: absolute; inset: 0;
+      background: rgba(11,11,11,0.8); backdrop-filter: blur(4px);
+    }
+    .modal-box {
+      position: relative; width: 100%; max-width: 32rem;
+      max-height: 90vh; overflow-y: auto;
+      background: var(--charcoal);
+      border: 1px solid rgba(250,250,250,0.1);
+      padding: 2rem;
+    }
+    .modal-box.wide { max-width: 42rem; }
+    .modal-box h2 { font-size: 1.5rem; letter-spacing: 0.04em; margin-bottom: 1rem; }
+    .modal-box p, .modal-box li { font-size: 0.875rem; line-height: 1.7; color: rgba(250,250,250,0.7); margin-bottom: 0.75rem; }
+    .modal-box h3 { font-size: 1.125rem; margin: 1.25rem 0 0.5rem; }
+    .toggle-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(250,250,250,0.1);
+      margin-bottom: 1rem;
+    }
+    .switch {
+      width: 44px; height: 24px; border-radius: 12px;
+      background: rgba(250,250,250,0.1);
+      position: relative; flex-shrink: 0; transition: background 0.3s;
+    }
+    .switch.on { background: rgba(197,160,89,0.4); }
+    .switch::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--luxury); transition: left 0.3s;
+    }
+    .switch.on::after { left: 22px; }
+    .switch.disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Floating bar */
+    .float-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+      background: rgba(11,11,11,0.95);
+      border-top: 1px solid rgba(250,250,250,0.1);
+      padding: 0.75rem 1rem;
+      transform: translateY(100%);
+      transition: transform 0.4s var(--ease);
+      backdrop-filter: blur(12px);
+    }
+    .float-bar.visible { transform: translateY(0); }
+    .float-inner {
+      max-width: 32rem; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+
+    /* Preview banner */
+    .preview-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--champagne);
+      color: var(--obsidian);
+      text-align: center;
+      padding: 6px 12px;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+    body.has-preview-banner .header { top: 28px; }
+
+    @media (min-width: 768px) {
+      .nav { display: flex; }
+      .header { padding: 1.25rem 3rem; }
+      .section-light, .section-dark, footer { padding-left: 3rem; padding-right: 3rem; }
+      .product-card { flex-direction: row; }
+      .product-card.reverse { flex-direction: row-reverse; }
+      .product-visual { width: 45%; aspect-ratio: auto; min-height: 320px; }
+      .newsletter-row { flex-direction: row; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .cookie-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+      .float-bar { display: none; }
+      .brand-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+    @media (min-width: 1024px) {
+      .footer-grid { grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+      .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+    }
+  </style>
+</head>
+<body class="has-preview-banner">
+  <div class="preview-banner">
+    PODGLĄD OFFLINE — dwuklik otwiera stronę w przeglądarce (bez Node.js)
+  </div>
+
+  <header class="header" id="header">
+    <a href="#" class="logo serif">AMK</a>
+    <ul class="nav">
+      <li><a href="#kolekcja">Kolekcja</a></li>
+      <li><a href="#o-marce">O marce</a></li>
+      <li><a href="#privilege-club">Privilege Club</a></li>
+    </ul>
+    <a href="#kolekcja" class="btn-header">Kup teraz</a>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-fade"></div>
+    <div class="hero-content animate-in">
+      <p class="uppercase-label text-gold">Ortopedia snu klasy premium</p>
+      <h1 class="serif">Cisza,<br><span>która leczy</span></h1>
+      <p>Wyroby medyczne klasy I — precyzyjnie zaprojektowane poduszki AMK łączą ortopedyczną skuteczność z estetyką quiet luxury.</p>
+      <div class="hero-btns">
+        <a href="#kolekcja" class="btn-primary">Odkryj kolekcję</a>
+        <a href="#o-marce" class="btn-outline">Poznaj AMK</a>
+      </div>
+    </div>
+    <a href="#kolekcja" class="scroll-hint" aria-label="Przewiń">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M6 9l6 6 6-6"/></svg>
+    </a>
+  </section>
+
+  <section class="section-light" id="kolekcja">
+    <div class="container">
+      <p class="uppercase-label text-gold">Kolekcja medyczna</p>
+      <h2 class="section-title serif">Cztery strefy regeneracji</h2>
+      <p class="section-intro">Każdy produkt AMK posiada status wyrobu medycznego klasy I, certyfikację CE oraz piankę memory z pamięcią kształtu w pokrowcu z jedwabiem naturalnym.</p>
+      <div class="products" id="products"></div>
+    </div>
+  </section>
+
+  <section class="section-dark" id="o-marce">
+    <div class="container brand-grid">
+      <div>
+        <p class="uppercase-label text-gold">Filozofia marki</p>
+        <h2 class="section-title serif" style="color:var(--luxury)">Quiet luxury<br>w służbie zdrowia</h2>
+        <p style="margin-top:1.5rem;font-size:0.9rem;line-height:1.7;color:rgba(250,250,250,0.55)">AMK to polska marka premium, która przekłada ortopedyczną precyzję na estetykę godną najbardziej wymagających wnętrz. Nie sprzedajemy poduszek — oferujemy regenerację w standardzie medycznym.</p>
+      </div>
+      <ul style="list-style:none">
+        <li class="pillar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <div><h3 class="serif">Ortopedia kliniczna</h3><p>Projektowany we współpracy z fizjoterapeutami i lekarzami medycyny regeneracyjnej.</p></div>
+        </li>
+        <li class="pillar" style="margin-top:2rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          <div><h3 class="serif">Certyfikacja medyczna</h3><p>Wyrób medyczny klasy I, norma EN ISO 13485, oznakowanie CE zgodne z MDR.</p></div>
+        </li>
+        <li class="pillar" style="margin-top:2rem">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.5 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <div><h3 class="serif">Materiały szlachetne</h3><p>Pianka memory z pamięcią kształtu i pokrowiec z jedwabiem naturalnym.</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-dark" id="privilege-club" style="padding-top:0">
+    <div class="container newsletter">
+      <p class="uppercase-label text-gold">Ekskluzywny dostęp</p>
+      <h2 class="section-title serif" style="color:var(--luxury)">Dołącz do AMK Privilege Club</h2>
+      <p style="margin-top:1rem;font-size:0.9rem;color:rgba(250,250,250,0.5);line-height:1.7">Wcześniejszy dostęp do limitowanych edycji, porady ortopedyczne oraz zaproszenia na prywatne prezentacje kolekcji.</p>
+      <form class="newsletter-form" id="newsletter-form">
+        <div class="newsletter-row">
+          <input type="email" id="newsletter-email" placeholder="Twój adres e-mail" required />
+          <button type="submit" class="btn-gold">Dołącz →</button>
+        </div>
+        <label class="consent-label">
+          <input type="checkbox" id="newsletter-consent" />
+          <span>Wyrażam zgodę na otrzymywanie informacji handlowych drogą elektroniczną od AMK Sp. z o.o. zgodnie z RODO i ustawą o świadczeniu usług drogą elektroniczną. Wiem, że mogę wycofać zgodę w każdym momencie.</span>
+        </label>
+        <p class="form-error" id="newsletter-error" hidden></p>
+      </form>
+      <p class="form-success" id="newsletter-success" hidden>Dziękujemy. Twoje zgłoszenie zostało przyjęte.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <p class="serif" style="font-size:1.5rem;letter-spacing:0.12em">AMK</p>
+        <p style="margin-top:1rem;font-size:12px;line-height:1.7;color:rgba(250,250,250,0.45)">AMK Sp. z o.o.<br>ul. Przykładowa 12, 00-001 Warszawa<br>NIP: 0000000000 | KRS: 0000000000</p>
+      </div>
+      <div class="footer-col">
+        <h3>Kolekcje</h3>
+        <ul id="footer-collections"></ul>
+      </div>
+      <div class="footer-col">
+        <h3>Strefa Prawna</h3>
+        <ul>
+          <li><button type="button" class="link" data-legal="regulamin">Regulamin Sklepu</button></li>
+          <li><button type="button" class="link" data-legal="polityka">Polityka Prywatności i RODO</button></li>
+          <li><button type="button" class="link" data-legal="zwroty">Formularz Zwrotu i Reklamacji</button></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-security">
+        <h3>Bezpieczeństwo</h3>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Certyfikaty medyczne CE</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg> ISO 13485</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Szyfrowanie SSL</li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="year"></span> AMK Sp. z o.o. Wszelkie prawa zastrzeżone.</p>
+      <p>Ceny zawierają VAT. Informacja o najniższej cenie z 30 dni zgodna z dyrektywą Omnibus (UE) 2019/2161.</p>
+    </div>
+  </footer>
+
+  <!-- Checkout drawer -->
+  <div class="overlay" id="checkout-overlay"></div>
+  <aside class="drawer" id="checkout-drawer" role="dialog" aria-labelledby="drawer-title">
+    <div class="drawer-header">
+      <div>
+        <p class="uppercase-label text-gold">Ekspresowa kasa</p>
+        <h2 class="serif" id="drawer-title" style="font-size:1.25rem;margin-top:4px">Zakup natychmiastowy</h2>
+      </div>
+      <button type="button" class="close-btn" id="close-drawer" aria-label="Zamknij">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-product" id="drawer-product"></div>
+      <p class="uppercase-label" style="margin-top:2rem;color:rgba(250,250,250,0.5)">Dane dostawy</p>
+      <input type="email" placeholder="Adres e-mail" style="margin-top:0.75rem" />
+      <input type="text" placeholder="Imię i nazwisko" />
+      <input type="text" placeholder="Ulica, numer, kod pocztowy, miasto" />
+      <div style="margin-top:2rem">
+        <p class="uppercase-label" style="color:rgba(250,250,250,0.5);margin-bottom:0.75rem">Ekspresowa płatność</p>
+        <div class="payment-grid">
+          <button type="button" class="pay-btn" onclick="alert('Podgląd: Apple Pay')"><span>&#63743; Pay</span></button>
+          <button type="button" class="pay-btn" onclick="alert('Podgląd: Google Pay')">Google Pay</button>
+        </div>
+        <button type="button" class="pay-btn pay-blik" onclick="alert('Podgląd: BLIK')">BLIK</button>
+        <div class="divider"><span>lub karta płatnicza</span></div>
+        <input type="text" placeholder="0000 0000 0000 0000" inputmode="numeric" />
+        <div class="card-grid">
+          <input type="text" placeholder="MM / RR" />
+          <input type="text" placeholder="CVV" />
+        </div>
+        <button type="button" class="btn-gold" style="width:100%;margin-top:0.75rem" onclick="alert('Podgląd: płatność kartą')"> Zapłać kartą</button>
+      </div>
+    </div>
+    <div class="drawer-footer">
+      <p> Transakcja zabezpieczona szyfrowaniem SSL 256-bit</p>
+      <p style="margin-top:0.5rem">Klikając przycisk płatności, akceptujesz Regulamin oraz Politykę Prywatności (podgląd).</p>
+    </div>
+  </aside>
+
+  <!-- Cookie banner -->
+  <div class="cookie-banner" id="cookie-banner">
+    <div class="cookie-inner">
+      <div>
+        <p class="serif" style="font-size:1.125rem">Pliki cookie AMK</p>
+        <p style="margin-top:0.5rem;font-size:12px;line-height:1.6;color:rgba(250,250,250,0.55)">Używamy plików cookie niezbędnych oraz — za Twoją zgodą — analitycznych i marketingowych. <button type="button" class="link" data-legal="polityka" style="text-decoration:underline;color:inherit">Polityka Prywatności</button>.</p>
+      </div>
+      <div class="cookie-btns">
+        <button type="button" class="btn-cookie-outline" id="cookie-settings-btn">Ustawienia zaawansowane</button>
+        <button type="button" class="btn-gold" id="cookie-accept-all">Akceptuję wszystkie</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating bar mobile -->
+  <div class="float-bar" id="float-bar">
+    <div class="float-inner">
+      <div>
+        <p class="uppercase-label text-gold" id="float-name">AMK Cervical Prestigio</p>
+        <p class="serif" id="float-price">499 zł</p>
+      </div>
+      <button type="button" class="btn-gold" id="float-buy">Kup teraz</button>
+    </div>
+  </div>
+
+  <!-- Cookie settings modal -->
+  <div class="modal" id="cookie-modal">
+    <div class="modal-bg" id="cookie-modal-bg"></div>
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <h2 class="serif">Ustawienia zaawansowane</h2>
+        <button type="button" class="close-btn" id="cookie-modal-close">✕</button>
+      </div>
+      <div class="toggle-row" style="margin-top:1.5rem">
+        <div><p style="font-size:14px;color:var(--luxury)">Niezbędne</p><p style="font-size:12px;color:rgba(250,250,250,0.45)">Wymagane do działania sklepu.</p></div>
+        <div class="switch on disabled"></div>
+      </div>
+      <div class="toggle-row">
+        <div><p style="font-size:14px;color:var(--luxury)">Analityczne</p><p style="font-size:12px;color:rgba(250,250,250,0.45)">Ulepszanie doświadczenia zakupowego.</p></div>
+        <button type="button" class="switch" id="toggle-analytics" aria-label="Analityczne"></button>
+      </div>
+      <div class="toggle-row" style="border:none">
+        <div><p style="font-size:14px;color:var(--luxury)">Marketingowe</p><p style="font-size:12px;color:rgba(250,250,250,0.45)">Personalizacja ofert AMK.</p></div>
+        <button type="button" class="switch" id="toggle-marketing" aria-label="Marketingowe"></button>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:1.5rem">
+        <button type="button" class="btn-cookie-outline" style="flex:1" id="cookie-save">Zapisz wybór</button>
+        <button type="button" class="btn-gold" style="flex:1" id="cookie-accept-modal">Akceptuję wszystkie</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal modal -->
+  <div class="modal" id="legal-modal">
+    <div class="modal-bg" id="legal-modal-bg"></div>
+    <div class="modal-box wide">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem">
+        <h2 class="serif" id="legal-title">Dokument</h2>
+        <button type="button" class="close-btn" id="legal-close">✕</button>
+      </div>
+      <div id="legal-content"></div>
+    </div>
+  </div>
+
+  <script>
+    const PRODUCTS = [
+      { id: 'cervical-prestigio', name: 'AMK Cervical Prestigio', subtitle: 'Poduszka pod kark', description: 'Zniweluj napięcie migrenowe i ból kręgosłupa szyjnego. Idealne podparcie lordozy.', price: 499, lowest: 549, collection: 'Cervical Prestigio', specs: { wymiary: '42 × 28 × 9 cm (wysokość profilu lordozy 7 cm)', wypelnienie: 'Pianka memory z pamięcią kształtu, gęstość 55 kg/m³, certyfikat Oeko-Tex® Standard 100', pokrowiec: 'Jedwab naturalny 22 momme z warstwą bambusową, zdejmowany, pranie 30°C' } },
+      { id: 'somnus-anatomica', name: 'AMK Somnus Anatomica', subtitle: 'Poduszka pod głowę', description: 'Ortopedyczna perfekcja snu. Anatomia dopasowana do każdej pozycji ciała.', price: 549, lowest: 599, collection: 'Somnus Anatomica', specs: { wymiary: '60 × 40 × 12 cm (strefy barkowe i szyjne)', wypelnienie: 'Pianka memory z pamięcią kształtu, dwustrefowa, reakcja termiczna 3–5 s', pokrowiec: 'Jedwab z bawełnianą podszewką, oddychający splot satynowy, pranie 30°C' } },
+      { id: 'genu-comfort', name: 'AMK Genu Comfort', subtitle: 'Poduszka między kolana', description: 'Stabilizacja miednicy i odciążenie dolnego odcinka pleców dla śpiących na boku.', price: 429, lowest: 479, collection: 'Genu Comfort', specs: { wymiary: '25 × 20 × 15 cm (kształt ergonomiczny „klepsydra”)', wypelnienie: 'Pianka memory z pamięcią kształtu, średnia twardość, antybakteryjna impregnacja', pokrowiec: 'Jedwab z dodatkiem lyocell, hipoalergiczny, pranie 30°C' } },
+      { id: 'sedile-premium', name: 'AMK Sedile Premium', subtitle: 'Poduszka pod pośladki', description: 'Luksusowa ulga dla kręgosłupa podczas wielogodzinnej pracy przy biurku lub w podróży.', price: 599, lowest: 649, collection: 'Sedile Premium', specs: { wymiary: '45 × 38 × 8 cm (otwór centralny redukujący ucisk)', wypelnienie: 'Pianka memory z pamięcią kształtu, wysoka gęstość 60 kg/m³, stabilizacja miednicy', pokrowiec: 'Jedwab antypoślizgowy z gumą silikonową, pokrowiec zdejmowany, pranie 30°C' } }
+    ];
+
+    const fmt = (n) => new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }).format(n);
+
+    const shieldSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>';
+    const zapSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>';
+
+    function renderProducts() {
+      const el = document.getElementById('products');
+      const footerCol = document.getElementById('footer-collections');
+      PRODUCTS.forEach((p, i) => {
+        const reverse = i % 2 === 1 ? ' reverse' : '';
+        el.innerHTML += `
+          <article class="product-card${reverse}">
+            <div class="product-visual">
+              <div class="product-visual-inner serif">AMK</div>
+              <span class="product-num">${String(i+1).padStart(2,'0')} / 04</span>
+            </div>
+            <div class="product-body">
+              <span class="badge">${shieldSvg} Wyrób Medyczny Klasy I</span>
+              <p class="product-subtitle">${p.subtitle}</p>
+              <h3 class="product-name serif">${p.name}</h3>
+              <p class="product-desc">${p.description}</p>
+              <p class="price serif">${fmt(p.price)}</p>
+              <p class="omnibus">Najniższa cena z 30 dni przed obniżką: <span>${fmt(p.lowest)}</span></p>
+              <div class="accordion">
+                <button type="button" class="accordion-btn" data-acc="${p.id}">
+                  Specyfikacja techniczna
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="accordion-panel" id="acc-${p.id}">
+                  <dl class="spec-list">
+                    <dt>Wymiary</dt><dd>${p.specs.wymiary}</dd>
+                    <dt>Wypełnienie</dt><dd>${p.specs.wypelnienie}</dd>
+                    <dt>Pokrowiec</dt><dd>${p.specs.pokrowiec}</dd>
+                  </dl>
+                </div>
+              </div>
+              <button type="button" class="btn-buy" data-buy="${p.id}">${zapSvg} Zakup natychmiastowy</button>
+            </div>
+          </article>`;
+        footerCol.innerHTML += `<li><a href="#kolekcja">${p.collection}</a></li>`;
+      });
+    }
+
+    let currentProduct = PRODUCTS[0];
+
+    function openCheckout(id) {
+      const p = PRODUCTS.find(x => x.id === id) || PRODUCTS[0];
+      currentProduct = p;
+      document.getElementById('drawer-product').innerHTML = `
+        <span class="badge">${shieldSvg} Wyrób Medyczny Klasy I</span>
+        <p class="uppercase-label" style="margin-top:0.75rem;color:rgba(250,250,250,0.5)">${p.subtitle}</p>
+        <h3 class="serif" style="font-size:1.125rem;margin-top:4px">${p.name}</h3>
+        <p class="serif" style="font-size:1.5rem;margin-top:1rem">${fmt(p.price)}</p>
+        <p class="omnibus" style="color:rgba(250,250,250,0.5)">Najniższa cena z 30 dni przed obniżką: <span style="color:rgba(250,250,250,0.7)">${fmt(p.lowest)}</span></p>`;
+      document.getElementById('checkout-overlay').classList.add('active');
+      document.getElementById('checkout-drawer').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-overlay').classList.remove('active');
+      document.getElementById('checkout-drawer').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    const LEGAL = {
+      regulamin: { title: 'Regulamin Sklepu', html: '<h3>§1 Postanowienia ogólne</h3><p>Regulamin określa zasady korzystania ze sklepu AMK prowadzonego przez AMK Sp. z o.o.</p><h3>§2 Zamówienia</h3><p>Zamówienia można składać 24/7. Umowa zostaje zawarta po potwierdzeniu e-mail.</p><h3>§3 Ceny</h3><p>Ceny brutto w PLN z VAT. Omnibus — informacja o najniższej cenie z 30 dni.</p><h3>§4 Odstąpienie</h3><p>14 dni na odstąpienie, z wyjątkiem rozpakowanych wyrobów medycznych (art. 38 pkt 5).</p>' },
+      polityka: { title: 'Polityka Prywatności i RODO', html: '<h3>Administrator</h3><p>AMK Sp. z o.o., iod@amk.pl</p><h3>Twoje prawa</h3><p>Dostęp, sprostowanie, usunięcie, ograniczenie, sprzeciw, skarga do UODO.</p><h3>Pliki cookie</h3><p>Niezbędne, analityczne i marketingowe — zarządzane w banerze zgody.</p>' },
+      zwroty: { title: 'Formularz Zwrotu i Reklamacji', html: '<p>Wyślij zgłoszenie na reklamacje@amk.pl z numerem zamówienia, danymi i opisem problemu. Odpowiedź w 14 dni roboczych.</p><p>Zwrot na adres magazynu w oryginalnym opakowaniu, jeśli przepisy na to pozwalają.</p>' }
+    };
+
+    function openLegal(key) {
+      const doc = LEGAL[key];
+      if (!doc) return;
+      document.getElementById('legal-title').textContent = doc.title;
+      document.getElementById('legal-content').innerHTML = doc.html;
+      document.getElementById('legal-modal').classList.add('active');
+    }
+
+    function closeLegal() {
+      document.getElementById('legal-modal').classList.remove('active');
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderProducts();
+
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.acc;
+        const panel = document.getElementById('acc-' + id);
+        const open = panel.classList.toggle('open');
+        btn.classList.toggle('open', open);
+      });
+    });
+
+    document.querySelectorAll('[data-buy]').forEach(btn => {
+      btn.addEventListener('click', () => openCheckout(btn.dataset.buy));
+    });
+
+    document.getElementById('close-drawer').onclick = closeCheckout;
+    document.getElementById('checkout-overlay').onclick = closeCheckout;
+
+    document.getElementById('float-buy').onclick = () => openCheckout(PRODUCTS[0].id);
+    document.getElementById('float-name').textContent = PRODUCTS[0].name;
+    document.getElementById('float-price').textContent = fmt(PRODUCTS[0].price);
+
+    const hero = document.getElementById('hero');
+    const floatBar = document.getElementById('float-bar');
+    new IntersectionObserver(([e]) => {
+      floatBar.classList.toggle('visible', !e.isIntersecting);
+    }, { threshold: 0 }).observe(hero);
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    const COOKIE_KEY = 'amk-cookie-preview';
+    const banner = document.getElementById('cookie-banner');
+    if (!localStorage.getItem(COOKIE_KEY)) {
+      setTimeout(() => banner.classList.add('visible'), 600);
+    }
+
+    function hideCookie() {
+      banner.classList.remove('visible');
+      localStorage.setItem(COOKIE_KEY, '1');
+    }
+
+    document.getElementById('cookie-accept-all').onclick = hideCookie;
+    document.getElementById('cookie-accept-modal').onclick = () => { hideCookie(); closeCookieModal(); };
+    document.getElementById('cookie-save').onclick = () => { hideCookie(); closeCookieModal(); };
+
+    const cookieModal = document.getElementById('cookie-modal');
+    function openCookieModal() { cookieModal.classList.add('active'); }
+    function closeCookieModal() { cookieModal.classList.remove('active'); }
+    document.getElementById('cookie-settings-btn').onclick = openCookieModal;
+    document.getElementById('cookie-modal-close').onclick = closeCookieModal;
+    document.getElementById('cookie-modal-bg').onclick = closeCookieModal;
+
+    ['toggle-analytics', 'toggle-marketing'].forEach(id => {
+      document.getElementById(id).addEventListener('click', function() { this.classList.toggle('on'); });
+    });
+
+    document.querySelectorAll('[data-legal]').forEach(btn => {
+      btn.addEventListener('click', () => openLegal(btn.dataset.legal));
+    });
+    document.getElementById('legal-close').onclick = closeLegal;
+    document.getElementById('legal-modal-bg').onclick = closeLegal;
+
+    document.getElementById('newsletter-form').onsubmit = (e) => {
+      e.preventDefault();
+      const err = document.getElementById('newsletter-error');
+      const ok = document.getElementById('newsletter-success');
+      err.hidden = true;
+      if (!document.getElementById('newsletter-email').value.trim()) {
+        err.textContent = 'Podaj adres e-mail.'; err.hidden = false; return;
+      }
+      if (!document.getElementById('newsletter-consent').checked) {
+        err.textContent = 'Wymagana jest zgoda na otrzymywanie informacji handlowych.'; err.hidden = false; return;
+      }
+      e.target.hidden = true;
+      ok.hidden = false;
+    };
+  </script>
+</body>
+</html>

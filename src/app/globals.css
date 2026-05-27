@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-obsidian font-sans text-luxury antialiased;
+  }
+
+  ::selection {
+    @apply bg-champagne/30 text-luxury;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-1 ring-champagne/50 ring-offset-2 ring-offset-obsidian;
+  }
+
+  input[type="checkbox"] {
+    @apply relative cursor-pointer;
+  }
+
+  input[type="checkbox"]:checked::after {
+    content: "";
+    @apply absolute left-1 top-0.5 block h-2.5 w-1.5 rotate-45 border-b border-r border-champagne;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
